@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Birthday E-Card Menu & Demo — Dzul Arts</title>
+  <style>
+    :root {
+      --bg-grad: radial-gradient(circle at top, #1f1c18, #090806);
+      --card-bg: #12100d;
+      --text-main: #f8ecd4;
+      --text-accent: #d4af37;
+      --border-col: #d4af37;
+      --shadow-col: rgba(212, 175, 55, 0.3);
+    }
+    [data-theme="black-gold"] { --bg-grad: radial-gradient(circle at top, #1f1c18, #090806); --card-bg: #12100d; --text-main: #f8ecd4; --text-accent: #d4af37; --border-col: #d4af37; --shadow-col: rgba(212, 175, 55, 0.3); }
+    [data-theme="emerald-gold"] { --bg-grad: radial-gradient(circle at top, #0d3b2e, #041a14); --card-bg: #07261d; --text-main: #ffffff; --text-accent: #facc15; --border-col: #facc15; --shadow-col: rgba(250, 204, 21, 0.28); }
+    [data-theme="blue-white"] { --bg-grad: radial-gradient(circle at top, #172a45, #0a192f); --card-bg: #0d1b33; --text-main: #f8fafc; --text-accent: #64ffda; --border-col: #e2e8f0; --shadow-col: rgba(100, 255, 218, 0.22); }
+    [data-theme="pink-gold"] { --bg-grad: radial-gradient(circle at top, #fce7f3, #f9a8d4); --card-bg: #fff1f2; --text-main: #4a1525; --text-accent: #b45309; --border-col: #d97706; --shadow-col: rgba(217, 119, 6, 0.25); }
+    [data-theme="classic-ivory"] { --bg-grad: radial-gradient(circle at top, #faf6ee, #e7dec8); --card-bg: #fffdf9; --text-main: #292524; --text-accent: #b45309; --border-col: #b45309; --shadow-col: rgba(180, 83, 9, 0.2); }
+    [data-theme="sunset-coral"] { --bg-grad: radial-gradient(circle at top, #fb7185, #9f1239); --card-bg: #881337; --text-main: #ffffff; --text-accent: #fde047; --border-col: #fde047; --shadow-col: rgba(253, 224, 71, 0.25); }
+    [data-theme="royal-purple"] { --bg-grad: radial-gradient(circle at top, #3b0764, #170326); --card-bg: #220438; --text-main: #f3e8ff; --text-accent: #f59e0b; --border-col: #f59e0b; --shadow-col: rgba(245, 158, 11, 0.28); }
+    [data-theme="teal-mint"] { --bg-grad: radial-gradient(circle at top, #115e59, #042f2e); --card-bg: #0b3b38; --text-main: #f0fdfa; --text-accent: #5eead4; --border-col: #5eead4; --shadow-col: rgba(94, 234, 212, 0.25); }
+    [data-theme="crimson-velvet"] { --bg-grad: radial-gradient(circle at top, #7f1d1d, #2b0606); --card-bg: #420b0b; --text-main: #fef2f2; --text-accent: #fbbf24; --border-col: #fbbf24; --shadow-col: rgba(251, 191, 36, 0.28); }
+    [data-theme="minimal-slate"] { --bg-grad: radial-gradient(circle at top, #334155, #0f172a); --card-bg: #0f172a; --text-main: #f8fafc; --text-accent: #38bdf8; --border-col: #94a3b8; --shadow-col: rgba(56, 189, 248, 0.22); }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      min-height: 100dvh;
+      background: var(--bg-grad);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 16px 14px 44px;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 760px) { .wrap { grid-template-columns: 1fr; } }
+
+    .menu-box {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 16px;
+      padding: 16px;
+      color: #f8fafc;
+    }
+    .menu-box h1 { font-size: 18px; color: #facc15; margin-bottom: 6px; }
+    .menu-sub { font-size: 12.5px; color: #cbd5e1; line-height: 1.5; margin-bottom: 14px; }
+
+    .grp { margin-bottom: 12px; }
+    .grp label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+    .grp input, .grp select {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 9px;
+      border: 1px solid #334155;
+      background: #0b111d;
+      color: #fff;
+      font-size: 13.5px;
+    }
+
+    .tip-note {
+      margin-top: 12px;
+      background: rgba(250, 204, 21, 0.12);
+      border: 1px solid rgba(250, 204, 21, 0.35);
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #f8fafc;
+    }
+    .tip-note strong { color: #facc15; }
+
+    /* Live Card Preview */
+    .preview-card {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 2px solid var(--border-col);
+      border-radius: 18px;
+      padding: 22px 18px;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 25px var(--shadow-col);
+    }
+
+    .p-badge {
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-accent);
+      margin-bottom: 6px;
+    }
+
+    .p-name {
+      font-size: 26px;
+      font-weight: bold;
+      color: var(--text-accent);
+      margin: 4px 0 16px;
+    }
+
+    .p-art {
+      width: 155px;
+      height: 155px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      border: 3px solid var(--border-col);
+      padding: 5px;
+      box-shadow: 0 0 20px var(--shadow-col);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .p-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .anim-spin img { animation: spin360 14s linear infinite; }
+    @keyframes spin360 { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .anim-float { animation: floatY 3.5s ease-in-out infinite; }
+    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .anim-flip img { animation: flipY 7s ease-in-out infinite; }
+    @keyframes flipY { 0%,100% { transform: rotateY(0); } 50% { transform: rotateY(180deg); } }
+
+    .p-wish { font-size: 14.5px; line-height: 1.6; margin-bottom: 10px; }
+    .p-wish.sub {
+      font-size: 13.5px;
+      font-style: italic;
+      color: var(--text-accent);
+      border-top: 1px dashed var(--border-col);
+      padding-top: 10px;
+    }
+
+    .p-by { font-size: 13.5px; margin-top: 12px; opacity: 0.92; }
+    .p-by strong { color: var(--text-accent); }
+
+    .sound-btn {
+      margin-top: 15px;
+      background: transparent;
+      border: 1px solid var(--border-col);
+      color: var(--text-accent);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: system-ui, -apple-system, sans-serif;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body data-theme="black-gold">
+  <div class="wrap">
+    <div class="menu-box">
+      <h1>Birthday E-Card Menu &amp; Try-Out</h1>
+      <p class="menu-sub">
+        Try the styles, languages, and motion below! To order a card, message me your choices—any contribution amount you wish (or none at all) is welcome.
+      </p>
+
+      <div class="grp">
+        <label>1. Choose Style / Colour (10 Options)</label>
+        <select id="dTheme" onchange="updateDemo()">
+          <option value="black-gold">1. Black &amp; Gold</option>
+          <option value="emerald-gold">2. Emerald Green &amp; Gold</option>
+          <option value="blue-white">3. Dark Blue &amp; White</option>
+          <option value="pink-gold">4. Pink &amp; Gold</option>
+          <option value="classic-ivory">5. Classic Ivory &amp; Gold</option>
+          <option value="sunset-coral">6. Sunset Coral &amp; Yellow</option>
+          <option value="royal-purple">7. Royal Purple &amp; Gold</option>
+          <option value="teal-mint">8. Dark Teal &amp; Mint</option>
+          <option value="crimson-velvet">9. Crimson Velvet &amp; Gold</option>
+          <option value="minimal-slate">10. Minimalist Slate &amp; Sky</option>
+        </select>
+      </div>
+
+      <div class="grp">
+        <label>2. Choose Wish Style (EN / BM / ID / Doa)</label>
+        <select id="dWish" onchange="updateDemo()">
+          <option value="0">1. All 3 Languages (EN + BM + ID + Doa)</option>
+          <option value="1">2. Bahasa Melayu + Doa Islam</option>
+          <option value="2">3. Bahasa Indonesia + Doa Islam</option>
+          <option value="3">4. English + Doa Islam</option>
+          <option value="4">5. Melayu + Indonesia</option>
+          <option value="5">6. Bahasa Melayu Sahaja</option>
+          <option value="6">7. Bahasa Indonesia Sahaja</option>
+          <option value="7">8. English Only</option>
+          <option value="8">9. Family Blessing (EN + BM + ID)</option>
+          <option value="9">10. Short &amp; Sweet (EN + BM + ID)</option>
+        </select>
+      </div>
+
+      <div class="grp">
+        <label>3. Choose Artwork Motion</label>
+        <select id="dAnim" onchange="updateDemo()">
+          <option value="anim-spin">360° Smooth Spin</option>
+          <option value="anim-float">Gentle Floating</option>
+          <option value="anim-flip">3D Coin Flip</option>
+          <option value="anim-none">No Motion</option>
+        </select>
+      </div>
+
+      <div class="grp">
+        <label>4. Test Recipient Name</label>
+        <input type="text" id="dName" value="Sahabatku" oninput="updateDemo()" />
+      </div>
+
+      <div class="grp">
+        <label>5. Test Sender Name</label>
+        <input type="text" id="dSender" value="Dzul Arts" oninput="updateDemo()" />
+      </div>
+
+      <div class="tip-note">
+        <strong>How It Works:</strong> Pick your style, wish, and name here to preview, then send me those details. Final cards come with an opening envelope and 3D echo birthday melody. Pay any amount you like or nothing at all.
+      </div>
+    </div>
+
+    <div class="preview-card" id="demoCard">
+      <div class="p-badge">Happy Birthday • Selamat Hari Lahir • Selamat Ulang Tahun</div>
+      <div class="p-name" id="outName">Sahabatku</div>
+
+      <div class="p-art anim-spin" id="outArtFrame">
+        <img src="artwork.jpg" alt="Sample Artwork" onerror="this.style.display='none';document.getElementById('demoFb').style.display='flex';" />
+        <div id="demoFb" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:40px;">🎂</div>
+      </div>
+
+      <p class="p-wish" id="outW1"></p>
+      <p class="p-wish sub" id="outW2"></p>
+      <p class="p-wish sub" id="outW3"></p>
+
+      <div class="p-by">With warm wishes,<br /><strong id="outSender">Dzul Arts</strong></div>
+
+      <button class="sound-btn" onclick="playBirthdayMelody()">♪ Test 3D Echo Melody</button>
+    </div>
+  </div>
+
+  <script>
+    const WISHES = [
+      {
+        w1: "Barakallah fi umrik. May Allah bless your new age with good health, peace, and barakah.",
+        w2: "Selamat Hari Lahir! Semoga dipanjangkan umur, dimurahkan rezeki, dan sentiasa di bawah lindungan rahmat-Nya.",
+        w3: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan dilimpahi berkah serta rezeki yang baik."
+      },
+      {
+        w1: "Sanah Helwah! Semoga Allah SWT sentiasa mengurniakan kesihatan yang baik, kebahagiaan dunia akhirat, dan rezeki yang luas.",
+        w2: "Semoga setiap langkah dan urusan dipermudahkan serta sentiasa dirahmati.",
+        w3: ""
+      },
+      {
+        w1: "Barakallah fii umrik! Semoga Allah SWT melimpahkan kesehatan, keberkahan usia, dan kebahagiaan dunia akhirat.",
+        w2: "Semoga selalu dalam lindungan-Nya dan dimudahkan segala urusan.",
+        w3: ""
+      },
+      {
+        w1: "Barakallah fi umrik. May Allah grant you good health, peace of heart, and abundance in all that you do.",
+        w2: "Wishing you a blessed year ahead filled with answered prayers.",
+        w3: ""
+      },
+      {
+        w1: "Selamat Hari Lahir! Semoga dipanjangkan umur, sihat sejahtera, dan dimurahkan rezeki selalu.",
+        w2: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan penuh keberkahan.",
+        w3: ""
+      },
+      {
+        w1: "Selamat Hari Lahir! Moga hari istimewa ini membawa kegembiraan, ketenangan hati, dan kesihatan yang baik.",
+        w2: "",
+        w3: ""
+      },
+      {
+        w1: "Selamat Ulang Tahun! Semoga hari istimewa ini membawa kebahagiaan, kesehatan, dan kesuksesan.",
+        w2: "",
+        w3: ""
+      },
+      {
+        w1: "Happy Birthday! Wishing you a wonderful day filled with joy, good health, and warm memories.",
+        w2: "",
+        w3: ""
+      },
+      {
+        w1: "May your life always be filled with love, health, and Allah's protection.",
+        w2: "Buat insan tersayang, semoga sentiasa diberkati usia dan bahagia bersama keluarga.",
+        w3: "Untuk orang tersayang, semoga selalu diberkahi usia dan bahagia bersama keluarga."
+      },
+      {
+        w1: "Happy Birthday! Stay blessed and healthy.",
+        w2: "Selamat Hari Jadi! Semoga sihat dan ceria selalu.",
+        w3: "Selamat Ultah! Semoga sehat dan bahagia selalu."
+      }
+    ];
+
+    function setLine(el, text) {
+      if (text && text.trim()) {
+        el.style.display = "block";
+        el.textContent = text;
+      } else {
+        el.style.display = "none";
+      }
+    }
+
+    function updateDemo() {
+      const theme = document.getElementById('dTheme').value;
+      const wishIdx = document.getElementById('dWish').value;
+      const anim = document.getElementById('dAnim').value;
+      const name = document.getElementById('dName').value.trim() || "Sahabatku";
+      const sender = document.getElementById('dSender').value.trim() || "Dzul Arts";
+      const w = WISHES[wishIdx] || WISHES[0];
+
+      document.body.setAttribute('data-theme', theme);
+      document.getElementById('outName').textContent = name;
+      document.getElementById('outSender').textContent = sender;
+      document.getElementById('outArtFrame').className = "p-art " + anim;
+
+      setLine(document.getElementById('outW1'), w.w1);
+      setLine(document.getElementById('outW2'), w.w2);
+      setLine(document.getElementById('outW3'), w.w3);
+    }
+
+    let audioCtx = null;
+    function playBirthdayMelody() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const masterGain = audioCtx.createGain(); masterGain.gain.value = 0.28;
+        const delayL = audioCtx.createDelay(); delayL.delayTime.value = 0.26;
+        const delayR = audioCtx.createDelay(); delayR.delayTime.value = 0.39;
+        const feedbackL = audioCtx.createGain(); feedbackL.gain.value = 0.35;
+        const feedbackR = audioCtx.createGain(); feedbackR.gain.value = 0.35;
+        const merger = audioCtx.createChannelMerger(2);
+
+        delayL.connect(feedbackL); feedbackL.connect(delayR);
+        delayR.connect(feedbackR); feedbackR.connect(delayL);
+        delayL.connect(merger, 0, 0); delayR.connect(merger, 0, 1);
+        merger.connect(masterGain); masterGain.connect(audioCtx.destination);
+
+        const notes = [
+          [261.63, 0.35], [261.63, 0.20], [293.66, 0.55], [261.63, 0.55], [349.23, 0.55], [329.63, 1.00],
+          [261.63, 0.35], [261.63, 0.20], [293.66, 0.55], [261.63, 0.55], [392.00, 0.55], [349.23, 1.00],
+          [261.63, 0.35], [261.63, 0.20], [523.25, 0.55], [440.00, 0.55], [349.23, 0.55], [329.63, 0.55], [293.66, 0.90],
+          [466.16, 0.35], [466.16, 0.20], [440.00, 0.55], [349.23, 0.55], [392.00, 0.55], [349.23, 1.20]
+        ];
+
+        let time = audioCtx.currentTime + 0.08;
+        notes.forEach(([freq, dur], idx) => {
+          const osc = audioCtx.createOscillator();
+          const noteGain = audioCtx.createGain();
+          const panner = audioCtx.createStereoPanner();
+          osc.type = 'sine'; osc.frequency.setValueAtTime(freq, time);
+          panner.pan.setValueAtTime(Math.sin(idx * 0.7) * 0.65, time);
+          noteGain.gain.setValueAtTime(0.001, time);
+          noteGain.gain.exponentialRampToValueAtTime(0.65, time + 0.03);
+          noteGain.gain.exponentialRampToValueAtTime(0.001, time + dur + 0.35);
+          osc.connect(noteGain); noteGain.connect(panner);
+          panner.connect(masterGain); panner.connect(delayL);
+          osc.start(time); osc.stop(time + dur + 0.4);
+          time += dur + 0.05;
+        });
+      } catch (e) {}
+    }
+
+    updateDemo();
+  </script>
+</body>
+</html>
