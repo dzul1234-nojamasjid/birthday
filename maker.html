@@ -102,31 +102,41 @@
       <div class="grp">
         <label>1. Style / Colour Theme (10 Choices)</label>
         <select id="mTheme" onchange="syncPreview()">
-          <option value="black-gold">1. Black & Gold</option>
-          <option value="emerald-gold">2. Emerald Green & Gold</option>
-          <option value="blue-white">3. Dark Blue & White</option>
-          <option value="pink-gold">4. Pink & Gold</option>
-          <option value="classic-ivory">5. Classic Ivory & Gold</option>
-          <option value="sunset-coral">6. Sunset Coral & Yellow</option>
-          <option value="royal-purple">7. Royal Purple & Gold</option>
-          <option value="teal-mint">8. Dark Teal & Mint</option>
-          <option value="crimson-velvet">9. Crimson Velvet & Gold</option>
-          <option value="minimal-slate">10. Minimalist Slate & Sky</option>
+          <option value="black-gold">1. Black &amp; Gold</option>
+          <option value="emerald-gold">2. Emerald Green &amp; Gold</option>
+          <option value="blue-white">3. Dark Blue &amp; White</option>
+          <option value="pink-gold">4. Pink &amp; Gold</option>
+          <option value="classic-ivory">5. Classic Ivory &amp; Gold</option>
+          <option value="sunset-coral">6. Sunset Coral &amp; Yellow</option>
+          <option value="royal-purple">7. Royal Purple &amp; Gold</option>
+          <option value="teal-mint">8. Dark Teal &amp; Mint</option>
+          <option value="crimson-velvet">9. Crimson Velvet &amp; Gold</option>
+          <option value="minimal-slate">10. Minimalist Slate &amp; Sky</option>
         </select>
       </div>
 
       <div class="grp">
-        <label>2. Recipient Name</label>
+        <label>2. Card Top Greeting Language</label>
+        <select id="mHeaderLang" onchange="syncPreview()">
+          <option value="HAPPY BIRTHDAY">English Only (HAPPY BIRTHDAY)</option>
+          <option value="SELAMAT HARI LAHIR">Bahasa Melayu Only (SELAMAT HARI LAHIR)</option>
+          <option value="SELAMAT ULANG TAHUN">Bahasa Indonesia Only (SELAMAT ULANG TAHUN)</option>
+          <option value="HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN">All 3 Languages (EN • BM • ID)</option>
+        </select>
+      </div>
+
+      <div class="grp">
+        <label>3. Recipient Name</label>
         <input type="text" id="mRecipient" value="Sahabatku" oninput="syncPreview()" />
       </div>
 
       <div class="grp">
-        <label>3. Scanned Drawing / Photo Filename</label>
+        <label>4. Scanned Drawing / Photo Filename</label>
         <input type="text" id="mArtwork" value="artwork.jpg" oninput="syncPreview()" />
       </div>
 
       <div class="grp">
-        <label>4. Artwork Motion</label>
+        <label>5. Artwork Motion</label>
         <select id="mAnim" onchange="syncPreview()">
           <option value="anim-spin">360° Smooth Spin</option>
           <option value="anim-float">Gentle Floating</option>
@@ -136,7 +146,7 @@
       </div>
 
       <div class="grp">
-        <label>5. Preset Wish Dropdown (EN / BM / ID / Doa)</label>
+        <label>6. Preset Wish Dropdown (EN / BM / ID / Doa)</label>
         <select id="mPreset" onchange="applyPreset()">
           <option value="0">1. All 3 Languages (EN + BM + ID + Doa)</option>
           <option value="1">2. Bahasa Melayu + Doa Islam</option>
@@ -147,27 +157,27 @@
           <option value="6">7. Bahasa Indonesia Sahaja</option>
           <option value="7">8. English Only</option>
           <option value="8">9. Family Blessing (EN + BM + ID)</option>
-          <option value="9">10. Short & Sweet (EN + BM + ID)</option>
+          <option value="9">10. Short &amp; Sweet (EN + BM + ID)</option>
         </select>
       </div>
 
       <div class="grp">
-        <label>6. Wish 1 (Main Wish — leave blank if not needed)</label>
+        <label>7. Wish 1 (Main Wish — leave blank if not needed)</label>
         <textarea id="mWish1" rows="2" oninput="syncPreview()"></textarea>
       </div>
 
       <div class="grp">
-        <label>7. Wish 2 (Second Language — leave blank if not needed)</label>
+        <label>8. Wish 2 (Second Language — leave blank if not needed)</label>
         <textarea id="mWish2" rows="2" oninput="syncPreview()"></textarea>
       </div>
 
       <div class="grp">
-        <label>8. Wish 3 (Third Language — leave blank if not needed)</label>
+        <label>9. Wish 3 (Third Language — leave blank if not needed)</label>
         <textarea id="mWish3" rows="2" oninput="syncPreview()"></textarea>
       </div>
 
       <div class="grp">
-        <label>9. Sender Name</label>
+        <label>10. Sender Name</label>
         <input type="text" id="mSender" value="Dzul" oninput="syncPreview()" />
       </div>
 
@@ -177,11 +187,11 @@
     <div class="preview-shell" id="previewShell">
       <div class="mini-card">
         <div style="color:var(--text-accent);letter-spacing:4px;font-size:14px;">✦ ✦ ✦</div>
-        <div style="font-family:sans-serif;font-size:10.5px;letter-spacing:1.8px;color:var(--text-accent);margin-top:4px;">HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN</div>
+        <div id="pHeader" style="font-family:sans-serif;font-size:10.5px;letter-spacing:1.8px;color:var(--text-accent);margin-top:4px;">HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN</div>
         <div class="mini-name" id="pName">Sahabatku</div>
         <div class="mini-art anim-spin" id="pArtFrame">
           <img id="pImg" src="artwork.jpg" alt="Artwork" onerror="this.style.display='none';document.getElementById('pFb').style.display='flex';" />
-          <div id="pFb" style="display:none;font-size:36px;">🎂</div>
+          <div id="pFb" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:36px;">🎂</div>
         </div>
         <div class="mini-wish" id="pWish1"></div>
         <div class="mini-wish sub" id="pWish2"></div>
@@ -194,51 +204,61 @@
   <script>
     const WISHES = [
       {
+        header: "HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "Barakallah fi umrik. May Allah bless your new age with good health, peace, and barakah.",
         w2: "Selamat Hari Lahir! Semoga dipanjangkan umur, dimurahkan rezeki, dan sentiasa di bawah lindungan rahmat-Nya.",
         w3: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan dilimpahi berkah serta rezeki yang baik."
       },
       {
+        header: "SELAMAT HARI LAHIR",
         w1: "Sanah Helwah! Semoga Allah SWT sentiasa mengurniakan kesihatan yang baik, kebahagiaan dunia akhirat, dan rezeki yang luas.",
         w2: "Semoga setiap langkah dan urusan dipermudahkan serta sentiasa dirahmati.",
         w3: ""
       },
       {
+        header: "SELAMAT ULANG TAHUN",
         w1: "Barakallah fii umrik! Semoga Allah SWT melimpahkan kesehatan, keberkahan usia, dan kebahagiaan dunia akhirat.",
         w2: "Semoga selalu dalam lindungan-Nya dan dimudahkan segala urusan.",
         w3: ""
       },
       {
+        header: "HAPPY BIRTHDAY",
         w1: "Barakallah fi umrik. May Allah grant you good health, peace of heart, and abundance in all that you do.",
         w2: "Wishing you a blessed year ahead filled with answered prayers.",
         w3: ""
       },
       {
+        header: "SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "Selamat Hari Lahir! Semoga dipanjangkan umur, sihat sejahtera, dan dimurahkan rezeki selalu.",
         w2: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan penuh keberkahan.",
         w3: ""
       },
       {
+        header: "SELAMAT HARI LAHIR",
         w1: "Selamat Hari Lahir! Moga hari istimewa ini membawa kegembiraan, ketenangan hati, dan kesihatan yang baik.",
         w2: "",
         w3: ""
       },
       {
+        header: "SELAMAT ULANG TAHUN",
         w1: "Selamat Ulang Tahun! Semoga hari istimewa ini membawa kebahagiaan, kesehatan, dan kesuksesan.",
         w2: "",
         w3: ""
       },
       {
+        header: "HAPPY BIRTHDAY",
         w1: "Happy Birthday! Wishing you a wonderful day filled with joy, good health, and warm memories.",
         w2: "",
         w3: ""
       },
       {
+        header: "HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "May your life always be filled with love, health, and Allah's protection.",
         w2: "Buat insan tersayang, semoga sentiasa diberkati usia dan bahagia bersama keluarga.",
         w3: "Untuk orang tersayang, semoga selalu diberkahi usia dan bahagia bersama keluarga."
       },
       {
+        header: "HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "Happy Birthday! Stay blessed and healthy.",
         w2: "Selamat Hari Jadi! Semoga sihat dan ceria selalu.",
         w3: "Selamat Ultah! Semoga sehat dan bahagia selalu."
@@ -247,6 +267,7 @@
 
     function applyPreset() {
       const w = WISHES[document.getElementById('mPreset').value];
+      document.getElementById('mHeaderLang').value = w.header;
       document.getElementById('mWish1').value = w.w1;
       document.getElementById('mWish2').value = w.w2;
       document.getElementById('mWish3').value = w.w3;
@@ -256,6 +277,7 @@
     function getData() {
       return {
         theme: document.getElementById('mTheme').value,
+        header: document.getElementById('mHeaderLang').value,
         recipient: document.getElementById('mRecipient').value,
         artwork: document.getElementById('mArtwork').value || "artwork.jpg",
         anim: document.getElementById('mAnim').value,
@@ -278,6 +300,7 @@
     function syncPreview() {
       const d = getData();
       document.getElementById('previewShell').setAttribute('data-theme', d.theme);
+      document.getElementById('pHeader').textContent = d.header;
       document.getElementById('pName').textContent = d.recipient || "Happy Birthday!";
       document.getElementById('pArtFrame').className = "mini-art " + d.anim;
       const img = document.getElementById('pImg');
@@ -358,7 +381,7 @@
     </div>
     <section class="card" id="card">
       <div style="color:var(--text-accent);font-size:18px;letter-spacing:6px;margin-bottom:8px;">✦ ✦ ✦</div>
-      <div style="font-family:system-ui,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-accent);margin-bottom:6px;">Happy Birthday • Selamat Hari Lahir • Selamat Ulang Tahun</div>
+      <div style="font-family:system-ui,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-accent);margin-bottom:6px;">${escapeHtml(d.header)}</div>
       <h1 class="recipient-name">${escapeHtml(d.recipient || "Happy Birthday!")}</h1>
       <div class="artwork-frame ${d.anim}">
         <img src="${escapeHtml(d.artwork)}" alt="Birthday Artwork" onerror="this.style.display='none';document.getElementById('artFallback').style.display='flex';" />
