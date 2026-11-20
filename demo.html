@@ -78,7 +78,6 @@
     }
     .tip-note strong { color: #facc15; }
 
-    /* Live Card Preview */
     .preview-card {
       background: var(--card-bg);
       color: var(--text-main);
@@ -226,7 +225,7 @@
     </div>
 
     <div class="preview-card" id="demoCard">
-      <div class="p-badge">Happy Birthday • Selamat Hari Lahir • Selamat Ulang Tahun</div>
+      <div class="p-badge" id="outBadge">HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN</div>
       <div class="p-name" id="outName">Sahabatku</div>
 
       <div class="p-art anim-spin" id="outArtFrame">
@@ -247,51 +246,61 @@
   <script>
     const WISHES = [
       {
+        badge: "HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "Barakallah fi umrik. May Allah bless your new age with good health, peace, and barakah.",
         w2: "Selamat Hari Lahir! Semoga dipanjangkan umur, dimurahkan rezeki, dan sentiasa di bawah lindungan rahmat-Nya.",
         w3: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan dilimpahi berkah serta rezeki yang baik."
       },
       {
+        badge: "SELAMAT HARI LAHIR",
         w1: "Sanah Helwah! Semoga Allah SWT sentiasa mengurniakan kesihatan yang baik, kebahagiaan dunia akhirat, dan rezeki yang luas.",
         w2: "Semoga setiap langkah dan urusan dipermudahkan serta sentiasa dirahmati.",
         w3: ""
       },
       {
+        badge: "SELAMAT ULANG TAHUN",
         w1: "Barakallah fii umrik! Semoga Allah SWT melimpahkan kesehatan, keberkahan usia, dan kebahagiaan dunia akhirat.",
         w2: "Semoga selalu dalam lindungan-Nya dan dimudahkan segala urusan.",
         w3: ""
       },
       {
+        badge: "HAPPY BIRTHDAY",
         w1: "Barakallah fi umrik. May Allah grant you good health, peace of heart, and abundance in all that you do.",
         w2: "Wishing you a blessed year ahead filled with answered prayers.",
         w3: ""
       },
       {
+        badge: "SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "Selamat Hari Lahir! Semoga dipanjangkan umur, sihat sejahtera, dan dimurahkan rezeki selalu.",
         w2: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan penuh keberkahan.",
         w3: ""
       },
       {
+        badge: "SELAMAT HARI LAHIR",
         w1: "Selamat Hari Lahir! Moga hari istimewa ini membawa kegembiraan, ketenangan hati, dan kesihatan yang baik.",
         w2: "",
         w3: ""
       },
       {
+        badge: "SELAMAT ULANG TAHUN",
         w1: "Selamat Ulang Tahun! Semoga hari istimewa ini membawa kebahagiaan, kesehatan, dan kesuksesan.",
         w2: "",
         w3: ""
       },
       {
+        badge: "HAPPY BIRTHDAY",
         w1: "Happy Birthday! Wishing you a wonderful day filled with joy, good health, and warm memories.",
         w2: "",
         w3: ""
       },
       {
+        badge: "HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "May your life always be filled with love, health, and Allah's protection.",
         w2: "Buat insan tersayang, semoga sentiasa diberkati usia dan bahagia bersama keluarga.",
         w3: "Untuk orang tersayang, semoga selalu diberkahi usia dan bahagia bersama keluarga."
       },
       {
+        badge: "HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN",
         w1: "Happy Birthday! Stay blessed and healthy.",
         w2: "Selamat Hari Jadi! Semoga sihat dan ceria selalu.",
         w3: "Selamat Ultah! Semoga sehat dan bahagia selalu."
@@ -316,6 +325,7 @@
       const w = WISHES[wishIdx] || WISHES[0];
 
       document.body.setAttribute('data-theme', theme);
+      document.getElementById('outBadge').textContent = w.badge;
       document.getElementById('outName').textContent = name;
       document.getElementById('outSender').textContent = sender;
       document.getElementById('outArtFrame').className = "p-art " + anim;
