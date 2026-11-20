@@ -34,7 +34,7 @@
       font-family: system-ui, -apple-system, sans-serif;
       padding: 16px;
     }
-    .wrap { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .wrap { max-width: 920px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
     @media (max-width: 760px) { .wrap { grid-template-columns: 1fr; } }
 
     .panel {
@@ -88,9 +88,9 @@
     .anim-flip img { animation: flipY 7s ease-in-out infinite; }
     @keyframes flipY { 0%,100% { transform: rotateY(0); } 50% { transform: rotateY(180deg); } }
 
-    .mini-p { font-size: 14px; line-height: 1.55; margin-bottom: 10px; white-space: pre-line; }
-    .mini-s { font-size: 13px; font-style: italic; color: var(--text-accent); border-top: 1px dashed var(--border-col); padding-top: 10px; margin-bottom: 12px; white-space: pre-line; }
-    .mini-by { font-size: 13px; }
+    .mini-wish { font-size: 13.5px; line-height: 1.55; margin-bottom: 10px; white-space: pre-line; }
+    .mini-wish.sub { font-size: 13px; font-style: italic; color: var(--text-accent); border-top: 1px dashed var(--border-col); padding-top: 9px; }
+    .mini-by { font-size: 13px; margin-top: 10px; }
     .mini-by strong { color: var(--text-accent); }
   </style>
 </head>
@@ -136,33 +136,38 @@
       </div>
 
       <div class="grp">
-        <label>5. Preset Wish Dropdown (10 Choices)</label>
+        <label>5. Preset Wish Dropdown (EN / BM / ID / Doa)</label>
         <select id="mPreset" onchange="applyPreset()">
-          <option value="0">1. Islamic Doa + English</option>
-          <option value="1">2. Islamic Doa + Melayu</option>
-          <option value="2">3. Warm English + Melayu</option>
-          <option value="3">4. Barakallah Fi Umrik</option>
-          <option value="4">5. English Birthday Wish</option>
-          <option value="5">6. Ucapan Hari Lahir Melayu</option>
-          <option value="6">7. Short & Sweet (EN + BM)</option>
-          <option value="7">8. Friendship Blessing</option>
-          <option value="8">9. Family Blessing (EN + BM)</option>
-          <option value="9">10. New Chapter Wish</option>
+          <option value="0">1. All 3 Languages (EN + BM + ID + Doa)</option>
+          <option value="1">2. Bahasa Melayu + Doa Islam</option>
+          <option value="2">3. Bahasa Indonesia + Doa Islam</option>
+          <option value="3">4. English + Doa Islam</option>
+          <option value="4">5. Melayu + Indonesia (No English)</option>
+          <option value="5">6. Bahasa Melayu Sahaja</option>
+          <option value="6">7. Bahasa Indonesia Sahaja</option>
+          <option value="7">8. English Only</option>
+          <option value="8">9. Family Blessing (EN + BM + ID)</option>
+          <option value="9">10. Short & Sweet (EN + BM + ID)</option>
         </select>
       </div>
 
       <div class="grp">
-        <label>6. Primary Wish</label>
-        <textarea id="mPrimary" rows="3" oninput="syncPreview()"></textarea>
+        <label>6. Wish 1 (Main Wish — leave blank if not needed)</label>
+        <textarea id="mWish1" rows="2" oninput="syncPreview()"></textarea>
       </div>
 
       <div class="grp">
-        <label>7. Second Language / Extra Wish</label>
-        <textarea id="mSecondary" rows="3" oninput="syncPreview()"></textarea>
+        <label>7. Wish 2 (Second Language — leave blank if not needed)</label>
+        <textarea id="mWish2" rows="2" oninput="syncPreview()"></textarea>
       </div>
 
       <div class="grp">
-        <label>8. Sender Name</label>
+        <label>8. Wish 3 (Third Language — leave blank if not needed)</label>
+        <textarea id="mWish3" rows="2" oninput="syncPreview()"></textarea>
+      </div>
+
+      <div class="grp">
+        <label>9. Sender Name</label>
         <input type="text" id="mSender" value="Dzul" oninput="syncPreview()" />
       </div>
 
@@ -172,14 +177,15 @@
     <div class="preview-shell" id="previewShell">
       <div class="mini-card">
         <div style="color:var(--text-accent);letter-spacing:4px;font-size:14px;">✦ ✦ ✦</div>
-        <div style="font-family:sans-serif;font-size:11px;letter-spacing:2px;color:var(--text-accent);margin-top:4px;">SELAMAT HARI LAHIR • HAPPY BIRTHDAY</div>
+        <div style="font-family:sans-serif;font-size:10.5px;letter-spacing:1.8px;color:var(--text-accent);margin-top:4px;">HAPPY BIRTHDAY • SELAMAT HARI LAHIR • SELAMAT ULANG TAHUN</div>
         <div class="mini-name" id="pName">Sahabatku</div>
         <div class="mini-art anim-spin" id="pArtFrame">
           <img id="pImg" src="artwork.jpg" alt="Artwork" onerror="this.style.display='none';document.getElementById('pFb').style.display='flex';" />
           <div id="pFb" style="display:none;font-size:36px;">🎂</div>
         </div>
-        <div class="mini-p" id="pPrimary"></div>
-        <div class="mini-s" id="pSecondary"></div>
+        <div class="mini-wish" id="pWish1"></div>
+        <div class="mini-wish sub" id="pWish2"></div>
+        <div class="mini-wish sub" id="pWish3"></div>
         <div class="mini-by">With warm wishes,<br /><strong id="pSender">Dzul</strong></div>
       </div>
     </div>
@@ -187,22 +193,63 @@
 
   <script>
     const WISHES = [
-      { primary: "Barakallah fi umrik. May Allah bless your new age with good health, endless peace, and barakah in everything you do.", secondary: "Selamat Hari Lahir! Semoga dipanjangkan umur, dimurahkan rezeki, dan sentiasa di bawah lindungan rahmat-Nya." },
-      { primary: "Sanah Helwah! Semoga Allah SWT sentiasa mengurniakan kesihatan yang baik, kebahagiaan dunia akhirat, serta rezeki yang melimpah ruah.", secondary: "Wishing you a blessed year ahead filled with tranquility, strength, and answered prayers." },
-      { primary: "Happy Birthday! Wishing you a wonderful day filled with laughter, warm memories, and bright moments ahead.", secondary: "Selamat Menyambut Hari Kelahiran! Semoga setiap langkahmu dipermudahkan dan sentiasa dikelilingi insan tersayang." },
-      { primary: "Allahumma baarik lahu fi umrihi. May every year bring you closer to goodness, wisdom, and serenity.", secondary: "Semoga usia yang bertambah ini menjadi saksi segala amal kebaikan dan kebahagiaan yang berpanjangan." },
-      { primary: "Wishing you a very Happy Birthday! May this new chapter bring you fresh opportunities, great health, and genuine happiness.", secondary: "" },
-      { primary: "Selamat Hari Lahir! Moga hari istimewa ini membawa seribu satu kegembiraan, ketenangan hati, dan kejayaan dalam setiap impian.", secondary: "" },
-      { primary: "Happy Birthday! Stay blessed, stay healthy, and keep shining.", secondary: "Selamat Hari Jadi! Semoga sentiasa sihat dan ceria selalu." },
-      { primary: "Thank you for being such a wonderful presence. Wishing you a year overflowing with kindness and success.", secondary: "Terima kasih atas persahabatan yang bermakna. Selamat menyambut hari kelahiran yang penuh ceria!" },
-      { primary: "To someone truly special—may your life always be filled with love, warmth, and Allah's endless protection.", secondary: "Buat insan yang dihargai, semoga sentiasa diberkati usia dan dilimpahi kebahagiaan bersama keluarga tercinta." },
-      { primary: "Another year wiser and stronger! May the year ahead reward all your hard work with peace and joy.", secondary: "Tahun baru, semangat baru. Semoga segala urusan dipermudahkan dan impian tercapai." }
+      {
+        w1: "Barakallah fi umrik. May Allah bless your new age with good health, peace, and barakah.",
+        w2: "Selamat Hari Lahir! Semoga dipanjangkan umur, dimurahkan rezeki, dan sentiasa di bawah lindungan rahmat-Nya.",
+        w3: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan dilimpahi berkah serta rezeki yang baik."
+      },
+      {
+        w1: "Sanah Helwah! Semoga Allah SWT sentiasa mengurniakan kesihatan yang baik, kebahagiaan dunia akhirat, dan rezeki yang luas.",
+        w2: "Semoga setiap langkah dan urusan dipermudahkan serta sentiasa dirahmati.",
+        w3: ""
+      },
+      {
+        w1: "Barakallah fii umrik! Semoga Allah SWT melimpahkan kesehatan, keberkahan usia, dan kebahagiaan dunia akhirat.",
+        w2: "Semoga selalu dalam lindungan-Nya dan dimudahkan segala urusan.",
+        w3: ""
+      },
+      {
+        w1: "Barakallah fi umrik. May Allah grant you good health, peace of heart, and abundance in all that you do.",
+        w2: "Wishing you a blessed year ahead filled with answered prayers.",
+        w3: ""
+      },
+      {
+        w1: "Selamat Hari Lahir! Semoga dipanjangkan umur, sihat sejahtera, dan dimurahkan rezeki selalu.",
+        w2: "Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan penuh keberkahan.",
+        w3: ""
+      },
+      {
+        w1: "Selamat Hari Lahir! Moga hari istimewa ini membawa kegembiraan, ketenangan hati, dan kesihatan yang baik.",
+        w2: "",
+        w3: ""
+      },
+      {
+        w1: "Selamat Ulang Tahun! Semoga hari istimewa ini membawa kebahagiaan, kesehatan, dan kesuksesan.",
+        w2: "",
+        w3: ""
+      },
+      {
+        w1: "Happy Birthday! Wishing you a wonderful day filled with joy, good health, and warm memories.",
+        w2: "",
+        w3: ""
+      },
+      {
+        w1: "May your life always be filled with love, health, and Allah's protection.",
+        w2: "Buat insan tersayang, semoga sentiasa diberkati usia dan bahagia bersama keluarga.",
+        w3: "Untuk orang tersayang, semoga selalu diberkahi usia dan bahagia bersama keluarga."
+      },
+      {
+        w1: "Happy Birthday! Stay blessed and healthy.",
+        w2: "Selamat Hari Jadi! Semoga sihat dan ceria selalu.",
+        w3: "Selamat Ultah! Semoga sehat dan bahagia selalu."
+      }
     ];
 
     function applyPreset() {
       const w = WISHES[document.getElementById('mPreset').value];
-      document.getElementById('mPrimary').value = w.primary;
-      document.getElementById('mSecondary').value = w.secondary;
+      document.getElementById('mWish1').value = w.w1;
+      document.getElementById('mWish2').value = w.w2;
+      document.getElementById('mWish3').value = w.w3;
       syncPreview();
     }
 
@@ -212,10 +259,20 @@
         recipient: document.getElementById('mRecipient').value,
         artwork: document.getElementById('mArtwork').value || "artwork.jpg",
         anim: document.getElementById('mAnim').value,
-        primary: document.getElementById('mPrimary').value,
-        secondary: document.getElementById('mSecondary').value,
+        w1: document.getElementById('mWish1').value,
+        w2: document.getElementById('mWish2').value,
+        w3: document.getElementById('mWish3').value,
         sender: document.getElementById('mSender').value
       };
+    }
+
+    function toggleWishLine(el, text) {
+      if (text && text.trim() !== "") {
+        el.style.display = "block";
+        el.textContent = text;
+      } else {
+        el.style.display = "none";
+      }
     }
 
     function syncPreview() {
@@ -228,16 +285,15 @@
       img.style.display = "block";
       fb.style.display = "none";
       img.src = d.artwork;
-      document.getElementById('pPrimary').textContent = d.primary;
-      const sec = document.getElementById('pSecondary');
-      if (d.secondary.trim()) { sec.style.display = "block"; sec.textContent = d.secondary; }
-      else { sec.style.display = "none"; }
+
+      toggleWishLine(document.getElementById('pWish1'), d.w1);
+      toggleWishLine(document.getElementById('pWish2'), d.w2);
+      toggleWishLine(document.getElementById('pWish3'), d.w3);
       document.getElementById('pSender').textContent = d.sender;
     }
 
     function generateCleanRecipientHTML() {
       const d = getData();
-      const safeJson = JSON.stringify(d).replace(/</g, "\\u003c");
       const cleanHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -283,9 +339,9 @@
     @keyframes gentleFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
     .anim-flip img { animation: coinFlip 7s ease-in-out infinite; }
     @keyframes coinFlip { 0%,100% { transform: rotateY(0); } 50% { transform: rotateY(180deg); } }
-    .wish-primary { font-size: 16px; line-height: 1.65; margin-bottom: 14px; white-space: pre-line; }
-    .wish-secondary { font-size: 14.5px; line-height: 1.6; font-style: italic; color: var(--text-accent); border-top: 1px dashed var(--border-col); padding-top: 12px; margin: 10px 0 16px; white-space: pre-line; }
-    .sender-signoff { font-size: 14px; opacity: 0.92; }
+    .wish-box { font-size: 15px; line-height: 1.6; margin-bottom: 12px; white-space: pre-line; }
+    .wish-box.extra { font-size: 14px; font-style: italic; color: var(--text-accent); border-top: 1px dashed var(--border-col); padding-top: 11px; }
+    .sender-signoff { font-size: 14px; opacity: 0.92; margin-top: 12px; }
     .sender-signoff strong { color: var(--text-accent); }
     .replay-btn { margin-top: 18px; background: transparent; border: 1px solid var(--border-col); color: var(--text-accent); padding: 7px 14px; border-radius: 20px; font-size: 12px; font-family: system-ui, sans-serif; cursor: pointer; }
   </style>
@@ -302,14 +358,15 @@
     </div>
     <section class="card" id="card">
       <div style="color:var(--text-accent);font-size:18px;letter-spacing:6px;margin-bottom:8px;">✦ ✦ ✦</div>
-      <div style="font-family:system-ui,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-accent);margin-bottom:6px;">Selamat Hari Lahir • Happy Birthday</div>
+      <div style="font-family:system-ui,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-accent);margin-bottom:6px;">Happy Birthday • Selamat Hari Lahir • Selamat Ulang Tahun</div>
       <h1 class="recipient-name">${escapeHtml(d.recipient || "Happy Birthday!")}</h1>
       <div class="artwork-frame ${d.anim}">
         <img src="${escapeHtml(d.artwork)}" alt="Birthday Artwork" onerror="this.style.display='none';document.getElementById('artFallback').style.display='flex';" />
         <div id="artFallback" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:44px;">🎂</div>
       </div>
-      <p class="wish-primary">${escapeHtml(d.primary)}</p>
-      ${d.secondary.trim() ? `<p class="wish-secondary">${escapeHtml(d.secondary)}</p>` : ""}
+      ${d.w1.trim() ? `<p class="wish-box">${escapeHtml(d.w1)}</p>` : ""}
+      ${d.w2.trim() ? `<p class="wish-box extra">${escapeHtml(d.w2)}</p>` : ""}
+      ${d.w3.trim() ? `<p class="wish-box extra">${escapeHtml(d.w3)}</p>` : ""}
       <div class="sender-signoff">With warm wishes,<br /><strong>${escapeHtml(d.sender)}</strong></div>
       <button class="replay-btn" onclick="playBirthdayMelody()">♪ Replay 3D Echo Melody</button>
     </section>
