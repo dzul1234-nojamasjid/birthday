@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Dzul Arts — Custom Birthday E-Cards</title>
+  <style>
+    :root {
+      --bg: radial-gradient(circle at top, #1f1a12, #090806);
+      --card: #13110e;
+      --gold: #d4af37;
+      --gold-bright: #facc15;
+      --text: #f8ecd4;
+      --muted: #cbb994;
+      --border: rgba(212, 175, 55, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100dvh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 20px 16px 48px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* Language Switcher */
+    .lang-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background: var(--gold);
+      color: #120f08;
+      font-weight: 700;
+      border-color: var(--gold);
+    }
+
+    /* Main Storefront Card */
+    .hero {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .brand-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      color: var(--gold-bright);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .art-preview {
+      width: 124px;
+      height: 124px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      padding: 4px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .art-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      animation: slowSpin 16s linear infinite;
+    }
+
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Action Buttons */
+    .cta-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-gold {
+      display: block;
+      text-decoration: none;
+      background: linear-gradient(135deg, #facc15, #d4af37);
+      color: #120f08;
+      font-weight: 700;
+      font-size: 14.5px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.25);
+    }
+
+    .btn-outline {
+      display: block;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+    }
+
+    /* Features Box */
+    .box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .box h2 {
+      font-size: 16px;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+    }
+
+    .feat-list {
+      list-style: none;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .feat-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .feat-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* Note Box */
+    .note-box {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 15px;
+      font-size: 12.5px;
+      line-height: 1.55;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .note-box strong {
+      color: var(--gold-bright);
+    }
+
+    .footer-mark {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 11.5px;
+      color: var(--muted);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="lang-row">
+      <button class="lang-btn active" id="l-en" onclick="setLang('en')">English</button>
+      <button class="lang-btn" id="l-ms" onclick="setLang('ms')">Bahasa Melayu</button>
+      <button class="lang-btn" id="l-id" onclick="setLang('id')">Bahasa Indonesia</button>
+    </div>
+
+    <section class="hero">
+      <div class="tag" id="topTag">✦ Dzul Arts • Digital E-Card Studio ✦</div>
+      <h1 class="brand-title" id="heroTitle">Custom Birthday E-Cards</h1>
+      <p class="brand-sub" id="heroSub">
+        Interactive opening envelopes, custom artwork motion, 3D echo birthday melody, and wishes in English, Malay &amp; Indonesian—made for WhatsApp.
+      </p>
+
+      <div class="art-preview">
+        <img src="artwork.jpg" alt="Dzul Arts Sample" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=&quot;font-size:38px;&quot;>🎂</span>';" />
+      </div>
+
+      <div class="cta-stack">
+        <a href="./" class="btn-gold" id="btnSample">✉ Open Sample Envelope Card</a>
+        <a href="./demo.html" class="btn-outline" id="btnDemo">🎨 Try 10 Styles &amp; Wishes Menu</a>
+      </div>
+    </section>
+
+    <section class="box">
+      <h2 id="featHeading">What Every E-Card Includes</h2>
+      <ul class="feat-list" id="featList"></ul>
+    </section>
+
+    <div class="note-box" id="noteBox"></div>
+    <div class="footer-mark" id="footerMark">Handcrafted by Dzul Arts • Mobile &amp; WhatsApp Ready</div>
+  </div>
+
+  <script>
+    const COPY = {
+      en: {
+        tag: "✦ Dzul Arts • Digital E-Card Studio ✦",
+        title: "Custom Birthday E-Cards",
+        sub: "Interactive opening envelopes, custom artwork motion, 3D echo birthday melody, and wishes in English, Malay & Indonesian—made for WhatsApp.",
+        btnSample: "✉ Open Sample Envelope Card",
+        btnDemo: "🎨 Try 10 Styles & Wishes Menu",
+        featHeading: "What Every E-Card Includes",
+        feats: [
+          "<strong>10 Colour Styles:</strong> Black & Gold, Emerald & Gold, Dark Blue & White, Pink & Gold, Classic Ivory, Sunset Coral, Royal Purple, Teal & Mint, Crimson Velvet, Minimal Slate.",
+          "<strong>EN / BM / ID + Islamic Doa:</strong> Choose English, Bahasa Melayu, Bahasa Indonesia, Islamic blessings, or combine them.",
+          "<strong>Artwork / Photo Motion:</strong> 360° smooth spin, gentle floating, or 3D coin flip.",
+          "<strong>3D Echo Birthday Tune:</strong> Plays automatically when the recipient taps the envelope open."
+        ],
+        note: "<strong>Friendly Contribution Policy:</strong><br />Created just for fun and sharing—contribute any amount you feel like (or nothing at all). Tap the buttons above to test the sample or browse the full menu!",
+        footer: "Dzul Arts • Mobile & WhatsApp Ready"
+      },
+      ms: {
+        tag: "✦ Dzul Arts • Studio E-Kad Digital ✦",
+        title: "E-Kad Hari Lahir Istimewa",
+        sub: "Sampul interaktif terbuka, gerakan karya seni, melodi gema 3D, serta ucapan dalam Bahasa Melayu, Indonesia & Inggeris—sesuai untuk WhatsApp.",
+        btnSample: "✉ Buka Contoh Kad Sampul",
+        btnDemo: "🎨 Cuba Menu 10 Gaya & Ucapan",
+        featHeading: "Kelebihan Setiap E-Kad",
+        feats: [
+          "<strong>10 Pilihan Warna:</strong> Hitam & Emas, Hijau Zamrud & Emas, Biru Gelap & Putih, Merah Jambu & Emas, Krim Klasik, Coral, Ungu Diraja, Teal & Pudina, Merah Baldu, Kelabu Minimalis.",
+          "<strong>BM / ID / EN + Doa Islam:</strong> Pilih Bahasa Melayu, Bahasa Indonesia, Bahasa Inggeris, doa, atau gabungan.",
+          "<strong>Gerakan Lukisan / Foto:</strong> Putaran 360° lancar, terapung lembut, atau pusingan syiling 3D.",
+          "<strong>Melodi Hari Lahir Gema 3D:</strong> Berbunyi automatik apabila sampul diketik untuk dibuka."
+        ],
+        note: "<strong>Sumbangan Seikhlas Hati:</strong><br />Dibuat sekadar suka-suka dan berkongsi—boleh beri sebarang jumlah yang anda suka (atau tiada pun tidak mengapa). Tekan butang di atas untuk mencuba!",
+        footer: "Dzul Arts • Mesra Telefon & WhatsApp"
+      },
+      id: {
+        tag: "✦ Dzul Arts • Studio E-Card Digital ✦",
+        title: "E-Card Ulang Tahun Spesial",
+        sub: "Amplop interaktif terbuka, animasi gambar/foto, melodi gema 3D, serta ucapan Bahasa Indonesia, Melayu & Inggris—pas untuk dibagikan di WhatsApp.",
+        btnSample: "✉ Buka Contoh Kartu Amplop",
+        btnDemo: "🎨 Coba Menu 10 Gaya & Ucapan",
+        featHeading: "Isi Setiap E-Card",
+        feats: [
+          "<strong>10 Pilihan Warna:</strong> Hitam & Emas, Hijau Zamrud & Emas, Biru Tua & Putih, Pink & Emas, Krem Klasik, Koral, Ungu, Teal & Mint, Merah Marun, Abu Minimalis.",
+          "<strong>ID / BM / EN + Doa Islami:</strong> Pilih Bahasa Indonesia, Bahasa Melayu, Bahasa Inggris, doa, atau gabungan.",
+          "<strong>Animasi Gambar / Foto:</strong> Putar 360° halus, mengambang lembut, atau putar koin 3D.",
+          "<strong>Musik Ulang Tahun Gema 3D:</strong> Otomatis berputar saat amplop diketuk untuk dibuka."
+        ],
+        note: "<strong>Sumbangan Sukarela:</strong><br />Dibuat untuk seru-seruan dan berbagi—silakan beri nominal berapa pun yang nyaman (atau tidak pun tidak apa-apa). Klik tombol di atas untuk mencoba!",
+        footer: "Dzul Arts • Siap untuk HP & WhatsApp"
+      }
+    };
+
+    function setLang(lang) {
+      const c = COPY[lang] || COPY.en;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('l-' + lang).classList.add('active');
+
+      document.getElementById('topTag').textContent = c.tag;
+      document.getElementById('heroTitle').textContent = c.title;
+      document.getElementById('heroSub').textContent = c.sub;
+      document.getElementById('btnSample').textContent = c.btnSample;
+      document.getElementById('btnDemo').textContent = c.btnDemo;
+      document.getElementById('featHeading').textContent = c.featHeading;
+      document.getElementById('featList').innerHTML = c.feats.map(f => `<li>${f}</li>`).join('');
+      document.getElementById('noteBox').innerHTML = c.note;
+      document.getElementById('footerMark').textContent = c.footer;
+    }
+
+    setLang('en');
+  </script>
+</body>
+</html>
