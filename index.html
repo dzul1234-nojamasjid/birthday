@@ -31,7 +31,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 16px 48px 16px;
+      padding: 18px 16px 48px 16px;
       overflow-x: hidden;
     }
 
@@ -63,10 +63,35 @@
       max-width: 440px;
     }
 
+    /* LANGUAGE SWITCHER BAR */
+    .lang-bar {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .lang-btn {
+      background: rgba(18, 16, 13, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .lang-btn.active {
+      background: var(--text-accent);
+      color: #12100d;
+      font-weight: bold;
+      border-color: var(--text-accent);
+    }
+
     .demo-banner {
       text-align: center;
       font-family: system-ui, -apple-system, sans-serif;
-      font-size: 12px;
+      font-size: 11.5px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: var(--text-accent);
@@ -213,25 +238,22 @@
       to { transform: rotate(360deg); }
     }
 
-    .wish-primary {
-      font-size: 15.5px;
-      line-height: 1.65;
-      margin-bottom: 12px;
-    }
-
-    .wish-secondary {
-      font-size: 14px;
+    .wish-line {
+      font-size: 14.5px;
       line-height: 1.6;
-      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .wish-line.accent {
       color: var(--text-accent);
-      border-top: 1px dashed var(--border-col);
-      padding-top: 12px;
-      margin: 10px 0 14px;
+      font-style: italic;
+      border-top: 1px dashed rgba(212, 175, 55, 0.45);
+      padding-top: 10px;
     }
 
     .sender-signoff {
       font-size: 13.5px;
       opacity: 0.92;
+      margin-top: 12px;
     }
     .sender-signoff strong { color: var(--text-accent); }
 
@@ -281,7 +303,7 @@
     }
 
     .catalog-list li {
-      padding: 6px 0;
+      padding: 7px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
@@ -304,65 +326,140 @@
   <div class="sparkles" id="sparkles"></div>
 
   <div class="container">
-    <div class="demo-banner">✦ Sample Preview • Tap Envelope Above ✦</div>
+    <!-- LANGUAGE SWITCHER -->
+    <div class="lang-bar">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">English</button>
+      <button class="lang-btn" id="btn-ms" onclick="setLang('ms')">Bahasa Melayu</button>
+      <button class="lang-btn" id="btn-id" onclick="setLang('id')">Bahasa Indonesia</button>
+    </div>
+
+    <div class="demo-banner" id="demoBanner">✦ Sample Preview • Tap Envelope Above ✦</div>
 
     <!-- STEP 1: ENVELOPE -->
     <div class="envelope-wrapper" id="envelope" onclick="openCard()">
       <div class="env-back"></div>
       <div class="env-flap"></div>
       <div class="env-pocket"></div>
-      <div class="wax-seal">Tap</div>
-      <div class="tap-hint">Tap envelope to open sample</div>
+      <div class="wax-seal" id="sealText">Tap</div>
+      <div class="tap-hint" id="tapHint">Tap envelope to open sample</div>
     </div>
 
-    <!-- STEP 2: SAMPLE CARD -->
+    <!-- STEP 2: SAMPLE CARD (ENGLISH + MALAY + INDONESIA) -->
     <section class="card" id="card">
       <div style="color:var(--text-accent);font-size:17px;letter-spacing:6px;margin-bottom:6px;">✦ ✦ ✦</div>
-      <div style="font-family:system-ui,sans-serif;font-size:11.5px;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-accent);margin-bottom:4px;">Selamat Hari Lahir • Happy Birthday</div>
-      <h1 class="recipient-name">Sample Recipient</h1>
+      <div style="font-family:system-ui,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-accent);margin-bottom:4px;">
+        Happy Birthday • Selamat Hari Lahir • Selamat Ulang Tahun
+      </div>
+      <h1 class="recipient-name" id="cardRecipient">Sample Recipient</h1>
 
       <div class="artwork-frame">
         <img src="artwork.jpg" alt="Sample Artwork" onerror="this.style.display='none';document.getElementById('artFallback').style.display='flex';" />
         <div id="artFallback" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:42px;">🎂</div>
       </div>
 
-      <p class="wish-primary">
-        Barakallah fi umrik. May Allah bless your new age with good health, endless peace, and barakah in everything you do.
+      <p class="wish-line">
+        <strong>EN:</strong> Barakallah fi umrik. May Allah bless your new age with good health, peace, and barakah.
       </p>
-      <p class="wish-secondary">
-        Selamat Hari Lahir! Semoga dipanjangkan umur, dimurahkan rezeki, dan sentiasa di bawah lindungan rahmat-Nya.
+      <p class="wish-line accent">
+        <strong>BM:</strong> Selamat Hari Lahir! Semoga dipanjangkan umur, dimurahkan rezeki, dan sentiasa dirahmati Allah.
+      </p>
+      <p class="wish-line accent">
+        <strong>ID:</strong> Selamat Ulang Tahun! Semoga panjang umur, sehat selalu, dan dilimpahi berkah serta rezeki yang baik.
       </p>
 
       <div class="sender-signoff">
-        With warm wishes,<br />
+        <span id="signoffLabel">With warm wishes,</span><br />
         <strong>Dzul Arts</strong>
       </div>
 
-      <button class="replay-btn" onclick="playBirthdayMelody()">♪ Replay 3D Echo Melody</button>
+      <button class="replay-btn" id="replayBtn" onclick="playBirthdayMelody()">♪ Replay 3D Echo Melody</button>
     </section>
 
     <!-- PRODUCT MENU / WHAT'S INCLUDED -->
     <section class="catalog-box">
-      <h2>What’s Included in Each E-Card</h2>
-      <p class="catalog-intro">
+      <h2 id="catTitle">What’s Included in Each E-Card</h2>
+      <p class="catalog-intro" id="catIntro">
         Mobile-friendly birthday e-cards made to share easily on WhatsApp—complete with an opening envelope, 3D echo melody, and custom artwork motion.
       </p>
 
-      <ul class="catalog-list">
-        <li><strong>10 Colour Styles:</strong> Black &amp; Gold, Emerald &amp; Gold, Dark Blue &amp; White, Pink &amp; Gold, Classic Ivory, Sunset Coral, Royal Purple, Teal &amp; Mint, Crimson Velvet, Minimal Slate.</li>
-        <li><strong>10 Preset Wishes:</strong> Islamic <em>Doa</em> blessings, English wishes, Malay <em>Ucapan Hari Lahir</em>, bilingual combinations, or your own custom message.</li>
-        <li><strong>Artwork / Photo Motion:</strong> 360° smooth spin, gentle floating, or 3D coin flip.</li>
-        <li><strong>3D Echo Birthday Tune:</strong> Plays automatically when the recipient taps the envelope open.</li>
-      </ul>
+      <ul class="catalog-list" id="catList"></ul>
 
-      <div class="support-note">
-        <strong>Pay-As-You-Wish / Voluntary Contribution:</strong><br />
-        No fixed price—contribute any amount you feel comfortable with (or nothing at all) to support my craft. Just message me the recipient's name, style, and wish!
-      </div>
+      <div class="support-note" id="supportBox"></div>
     </section>
   </div>
 
   <script>
+    const I18N = {
+      en: {
+        banner: "✦ Sample Preview • Tap Envelope Above ✦",
+        seal: "Tap",
+        tapHint: "Tap envelope to open sample",
+        recipient: "Sample Recipient",
+        signoff: "With warm wishes,",
+        replay: "♪ Replay 3D Echo Melody",
+        catTitle: "What’s Included in Each E-Card",
+        catIntro: "Mobile-friendly birthday e-cards made to share easily on WhatsApp—complete with an opening envelope, 3D echo melody, and custom artwork motion.",
+        items: [
+          "<strong>10 Colour Styles:</strong> Black & Gold, Emerald & Gold, Dark Blue & White, Pink & Gold, Classic Ivory, Sunset Coral, Royal Purple, Teal & Mint, Crimson Velvet, Minimal Slate.",
+          "<strong>3 Languages + Islamic Doa:</strong> English, Bahasa Melayu, Bahasa Indonesia, and Islamic blessings—pick one, two, or all three.",
+          "<strong>Artwork / Photo Motion:</strong> 360° smooth spin, gentle floating, or 3D coin flip.",
+          "<strong>3D Echo Birthday Tune:</strong> Plays automatically when the recipient taps the envelope open."
+        ],
+        support: "<strong>Pay-As-You-Wish / Voluntary Contribution:</strong><br />No fixed price—contribute any amount you feel comfortable with (or nothing at all) to support my craft. Just message me the recipient's name, style, and wish!"
+      },
+      ms: {
+        banner: "✦ Pratonton Contoh • Ketik Sampul Di Atas ✦",
+        seal: "Ketik",
+        tapHint: "Ketik sampul untuk buka contoh kad",
+        recipient: "Penerima Contoh",
+        signoff: "Salam ingatan,",
+        replay: "♪ Main Semula Melodi Gema 3D",
+        catTitle: "Apa Yang Ada Dalam Setiap E-Kad",
+        catIntro: "E-kad hari lahir mesra telefon pintar untuk dikongsi mudah di WhatsApp—lengkap dengan sampul terbuka, melodi gema 3D, dan gerakan karya seni.",
+        items: [
+          "<strong>10 Gaya Warna:</strong> Hitam & Emas, Hijau Zamrud & Emas, Biru Gelap & Putih, Merah Jambu & Emas, Krim Klasik, Coral, Ungu Diraja, Teal & Pudina, Merah Baldu, Kelabu Minimalis.",
+          "<strong>3 Bahasa + Doa Islam:</strong> Bahasa Melayu, Bahasa Indonesia, Bahasa Inggeris, dan doa—boleh pilih satu, dua, atau ketiga-tiganya.",
+          "<strong>Gerakan Lukisan / Foto:</strong> Putaran 360° lancar, terapung lembut, atau pusingan syiling 3D.",
+          "<strong>Lagu Hari Lahir Gema 3D:</strong> Berbunyi automatik apabila penerima mengetik sampul untuk membukanya."
+        ],
+        support: "<strong>Sumbangan Seikhlas Hati:</strong><br />Tiada harga tetap—boleh beri sebarang jumlah yang anda rasa selesa (atau tiada pun tidak mengapa) untuk menyokong karya saya. Hanya mesej nama penerima, gaya warna, dan ucapan!"
+      },
+      id: {
+        banner: "✦ Contoh Pratinjau • Ketuk Amplop Di Atas ✦",
+        seal: "Ketuk",
+        tapHint: "Ketuk amplop untuk membuka contoh kartu",
+        recipient: "Penerima Contoh",
+        signoff: "Salam hangat,",
+        replay: "♪ Putar Ulang Melodi Gema 3D",
+        catTitle: "Isi Setiap E-Card Ulang Tahun",
+        catIntro: "E-card ulang tahun ramah HP yang mudah dibagikan di WhatsApp—lengkap dengan amplop terbuka, melodi gema 3D, dan animasi karya seni.",
+        items: [
+          "<strong>10 Pilihan Warna:</strong> Hitam & Emas, Hijau Zamrud & Emas, Biru Tua & Putih, Pink & Emas, Krem Klasik, Koral, Ungu, Teal & Mint, Merah Marun, Abu Minimalis.",
+          "<strong>3 Bahasa + Doa Islami:</strong> Bahasa Indonesia, Bahasa Melayu, Bahasa Inggris, serta doa—bisa pilih satu, dua, atau ketiganya.",
+          "<strong>Animasi Gambar / Foto:</strong> Putar 360° halus, mengambang lembut, atau putar koin 3D.",
+          "<strong>Musik Ulang Tahun Gema 3D:</strong> Otomatis berputar saat penerima mengetuk amplop untuk membukanya."
+        ],
+        support: "<strong>Sumbangan Sukarela / Seikhlasnya:</strong><br />Tidak ada tarif tetap—silakan beri nominal berapa pun yang nyaman untuk Anda (atau tidak pun tidak apa-apa) demi mendukung karya ini. Cukup kirim nama penerima, pilihan warna, dan ucapan!"
+      }
+    };
+
+    function setLang(lang) {
+      const t = I18N[lang] || I18N.en;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-' + lang).classList.add('active');
+
+      document.getElementById('demoBanner').textContent = t.banner;
+      document.getElementById('sealText').textContent = t.seal;
+      document.getElementById('tapHint').textContent = t.tapHint;
+      document.getElementById('cardRecipient').textContent = t.recipient;
+      document.getElementById('signoffLabel').textContent = t.signoff;
+      document.getElementById('replayBtn').textContent = t.replay;
+      document.getElementById('catTitle').textContent = t.catTitle;
+      document.getElementById('catIntro').textContent = t.catIntro;
+      document.getElementById('catList').innerHTML = t.items.map(item => `<li>${item}</li>`).join('');
+      document.getElementById('supportBox').innerHTML = t.support;
+    }
+
     const c = document.getElementById('sparkles');
     for (let i = 0; i < 18; i++) {
       const s = document.createElement('div');
@@ -446,6 +543,8 @@
         });
       } catch (e) {}
     }
+
+    setLang('en');
   </script>
 </body>
 </html>
