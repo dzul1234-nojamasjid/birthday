@@ -335,49 +335,70 @@
       setLine(document.getElementById('outW3'), w.w3);
     }
 
-    let audioCtx = null;
-    function playBirthdayMelody() {
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+let audioCtx = null;
+function playBirthdayMelody() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
 
-        const masterGain = audioCtx.createGain(); masterGain.gain.value = 0.28;
-        const delayL = audioCtx.createDelay(); delayL.delayTime.value = 0.26;
-        const delayR = audioCtx.createDelay(); delayR.delayTime.value = 0.39;
-        const feedbackL = audioCtx.createGain(); feedbackL.gain.value = 0.35;
-        const feedbackR = audioCtx.createGain(); feedbackR.gain.value = 0.35;
-        const merger = audioCtx.createChannelMerger(2);
+    const masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.75;
 
-        delayL.connect(feedbackL); feedbackL.connect(delayR);
-        delayR.connect(feedbackR); feedbackR.connect(delayL);
-        delayL.connect(merger, 0, 0); delayR.connect(merger, 0, 1);
-        merger.connect(masterGain); masterGain.connect(audioCtx.destination);
+    const delayL = audioCtx.createDelay();
+    delayL.delayTime.value = 0.26;
+    const delayR = audioCtx.createDelay();
+    delayR.delayTime.value = 0.39;
 
-        const notes = [
-          [261.63, 0.35], [261.63, 0.20], [293.66, 0.55], [261.63, 0.55], [349.23, 0.55], [329.63, 1.00],
-          [261.63, 0.35], [261.63, 0.20], [293.66, 0.55], [261.63, 0.55], [392.00, 0.55], [349.23, 1.00],
-          [261.63, 0.35], [261.63, 0.20], [523.25, 0.55], [440.00, 0.55], [349.23, 0.55], [329.63, 0.55], [293.66, 0.90],
-          [466.16, 0.35], [466.16, 0.20], [440.00, 0.55], [349.23, 0.55], [392.00, 0.55], [349.23, 1.20]
-        ];
+    const feedbackL = audioCtx.createGain();
+    feedbackL.gain.value = 0.35;
+    const feedbackR = audioCtx.createGain();
+    feedbackR.gain.value = 0.35;
 
-        let time = audioCtx.currentTime + 0.08;
-        notes.forEach(([freq, dur], idx) => {
-          const osc = audioCtx.createOscillator();
-          const noteGain = audioCtx.createGain();
-          const panner = audioCtx.createStereoPanner();
-          osc.type = 'sine'; osc.frequency.setValueAtTime(freq, time);
-          panner.pan.setValueAtTime(Math.sin(idx * 0.7) * 0.65, time);
-          noteGain.gain.setValueAtTime(0.001, time);
-          noteGain.gain.exponentialRampToValueAtTime(0.65, time + 0.03);
-          noteGain.gain.exponentialRampToValueAtTime(0.001, time + dur + 0.35);
-          osc.connect(noteGain); noteGain.connect(panner);
-          panner.connect(masterGain); panner.connect(delayL);
-          osc.start(time); osc.stop(time + dur + 0.4);
-          time += dur + 0.05;
-        });
-      } catch (e) {}
-    }
+    const merger = audioCtx.createChannelMerger(2);
 
+    delayL.connect(feedbackL);
+    feedbackL.connect(delayR);
+    delayR.connect(feedbackR);
+    feedbackR.connect(delayL);
+
+    delayL.connect(merger, 0, 0);
+    delayR.connect(merger, 0, 1);
+
+    merger.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
+
+    const notes = [
+      [261.63, 0.35], [261.63, 0.20], [293.66, 0.55], [261.63, 0.55], [349.23, 0.55], [329.63, 1.00],
+      [261.63, 0.35], [261.63, 0.20], [293.66, 0.55], [261.63, 0.55], [392.00, 0.55], [349.23, 1.00],
+      [261.63, 0.35], [261.63, 0.20], [523.25, 0.55], [440.00, 0.55], [349.23, 0.55], [329.63, 0.55], [293.66, 0.90],
+      [466.16, 0.35], [466.16, 0.20], [440.00, 0.55], [349.23, 0.55], [392.00, 0.55], [349.23, 1.20]
+    ];
+
+    let time = audioCtx.currentTime + 0.08;
+    notes.forEach(([freq, dur], idx) => {
+      const osc = audioCtx.createOscillator();
+      const noteGain = audioCtx.createGain();
+      const panner = audioCtx.createStereoPanner();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, time);
+      panner.pan.setValueAtTime(Math.sin(idx * 0.7) * 0.65, time);
+
+      noteGain.gain.setValueAtTime(0.001, time);
+      noteGain.gain.exponentialRampToValueAtTime(0.85, time + 0.03);
+      noteGain.gain.exponentialRampToValueAtTime(0.001, time + dur + 0.35);
+
+      osc.connect(noteGain);
+      noteGain.connect(panner);
+      panner.connect(masterGain);
+      panner.connect(delayL);
+
+      osc.start(time);
+      osc.stop(time + dur + 0.4);
+      time += dur + 0.05;
+    });
+  } catch (e) {}
+}
     updateDemo();
   </script>
 </body>
